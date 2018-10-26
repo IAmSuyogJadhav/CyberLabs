@@ -67,7 +67,7 @@ def graph_spectrogram(  # DONE
             audio_binary,
             file_format='wav',
             samples_per_second=sampling_frequency,
-            channel_count=1
+            channel_count=2
             ) * 2**15  # To undo normalization
 
         # Convert to single dimensional vector by taking max of both channels.
@@ -137,7 +137,3 @@ def load_raw_audio():  # TODO
             negative = AudioSegment.from_wav("./raw_data/negatives/"+filename)
             negatives.append(negative)
     return activates, negatives, backgrounds
-
-import numpy as np
-a = np.ones((5, 2))
-a.mean(axis=1)

@@ -1,6 +1,7 @@
 # Specific to Suyog's PC
 ignore/
-
+labels/
+training_data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
