@@ -68,7 +68,9 @@ def graph_spectrogram(  # DONE
             file_format='wav',
             samples_per_second=sampling_frequency,
             channel_count=2
-            ) * 2**15  # To undo normalization
+            )
+        if normalize:
+            data *= 2**15  # To undo normalization
 
         # Convert to single dimensional vector by taking max of both channels.
         # Works better than just dropping a channel.
