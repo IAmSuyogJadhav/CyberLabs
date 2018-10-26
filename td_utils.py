@@ -8,10 +8,10 @@ from tensorflow.contrib.framework.python.ops import audio_ops
 # Calculate and plot spectrogram for a wav audio file
 def graph_spectrogram(  # DONE
     wav_file,
-    window_length=512,  # Length of each window segment
+    window_length=25,  # Length of each window segment
     sampling_frequency=8000,  # Sampling frequency
-    step_size=256,  # Step size
-    fft_length=2,
+    step_size=12,  # Step size
+    fft_length=200,
     normalize=False
         ):  # TODO
     """
@@ -34,13 +34,8 @@ def graph_spectrogram(  # DONE
         If True, normalize the output audio (by dividing by 2**15).
         Defaults to False.
     """
-    # DEBUG:
-    sess = tf.InteractiveSession()
-    ###########
-
     # Load the raw audio data
     audio_binary = tf.read_file(wav_file)  # The raw data
-    # print("Audio binary shape:", audio_binary.eval().shape)  # DEBUG:
     # Decode and convert into a Tensor
     data = tf.contrib.ffmpeg.decode_audio(
         audio_binary,
@@ -49,14 +44,12 @@ def graph_spectrogram(  # DONE
         channel_count=2
         )
 
-    print("Data shape:", data.eval().shape)  # DEBUG:
     if normalize:
         data *= 2**15  # To undo normalization
 
     # Convert to single dimensional vector by taking max of both channels.
     # Works better than just dropping a channel.
     data = tf.reduce_max(data, axis=1)
-    print("after reduce_max, shape:", data.eval().shape)  # DEBUG:
     data = data[None, ...]
 
     # Compute spectrogram for the signal by converting it to frequency
@@ -68,7 +61,6 @@ def graph_spectrogram(  # DONE
         frame_step=step_size,
         fft_length=fft_length
         )
-    print("specgram shape:", specgrams.eval().shape)  # DEBUG:
 
     # There are two ways we acn utilize the spectrogram, power spectrogram
     # and magnitude spectrogram. We will use power spectrogram, given by
