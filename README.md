@@ -30,13 +30,14 @@ Audio data, if used raw, doesn't come with a good set of usable features. One ha
 pre-process the raw audio signal to make it suitable for training purpose.
 All the modern microphones use 44.1 KHz sampling rate to record the audio.
 If we load the raw audio (which is 2 seconds long) directly, we therefore get a
-vector of shape  <img src="https://latex.codecogs.com/gif.latex?[882000%20*%201]" /> vector. This is a lot of features.
+vector of shape  <img src="https://latex.codecogs.com/gif.latex?[882000%20*%201]" />. This is a whooping lot of features.
+
 We can reduce the no. of features drastically by switching to frequency domain
 by calculating [Short-time Fourier Transform](https://en.wikipedia.org/wiki/Short-time_Fourier_transform) over the audio signal.
 We chose a _window size_ of 1650 time steps, _step size_ of 65 time steps and _fft length_ to be 200 after multiple trials.
 (More details about these parameters are given in the [`graph_spectrogram`](./utils.py#L7) function inside the [`utils`](./utils.py) script)
 
-This provides us back with a matrix of shape <img src="https://latex.codecogs.com/gif.latex?[1332%20*%20101]" />
-
+This provides us back with a matrix of shape <img src="https://latex.codecogs.com/gif.latex?[1332%20*%20101]" />.
 This is a lot of reduction in the parameters, plus frequency domain is the most suitable domain
-for dealing with signals and always gives better results than the time domain. We end up with a highly useful, yet computationally efficient parameters.
+for dealing with signals and always gives better results than the time domain. Thus,
+finally we end up with a highly useful, yet computationally efficient set of parameters.
