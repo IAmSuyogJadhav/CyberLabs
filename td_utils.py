@@ -9,18 +9,17 @@ from tensorflow.contrib.framework.python.ops import audio_ops
 def graph_spectrogram(  # DONE
     wav_file,
     window_length=25,  # Length of each window segment
-    sampling_frequency=8000,  # Sampling frequency
+    # sampling_frequency=8000,  # Sampling frequency
     step_size=12,  # Step size
     fft_length=200,
-    normalize=False
+    normalize=False,
+    train=True
         ):  # TODO
     """
     Parameters
     ----------
     wav_file: str, required
         Path to the wav file
-    sampling_frequency: int, optional
-        The frequency to in Hz to resample the audio to. Defaults to 8000.
     window_length: int, optional
         The length of the window for stft. Defaults to 200.
         HIGHER the window length, LOWER the no. of features produced in axis 0.
@@ -35,17 +34,22 @@ def graph_spectrogram(  # DONE
         Defaults to False.
     """
     # Load the raw audio data
-    audio_binary = tf.read_file(wav_file)  # The raw data
-    # Decode and convert into a Tensor
-    data = tf.contrib.ffmpeg.decode_audio(
-        audio_binary,
-        file_format='wav',
-        samples_per_second=sampling_frequency,
-        channel_count=2
-        )
+    if train:
+        audio_binary = tf.read_file(wav_file)  # The raw data
+        # Decode and convert into a Tensor
+        data = tf.contrib.ffmpeg.decode_audio(
+            audio_binary,
+            file_format='wav',
+            samples_per_second=44100,  # Fixed
+            channel_count=2
+            )
+        if normalize:
+            pass
+        else:
+            data *= 2**15
 
-    if normalize:
-        data *= 2**15  # To undo normalization
+    else:
+        _, data = get_wav_info(wav_file, normalize)
 
     # Convert to single dimensional vector by taking max of both channels.
     # Works better than just dropping a channel.
@@ -62,7 +66,7 @@ def graph_spectrogram(  # DONE
         fft_length=fft_length
         )
 
-    # There are two ways we acn utilize the spectrogram, power spectrogram
+    # There are two ways we can utilize the spectrogram, power spectrogram
     # and magnitude spectrogram. We will use power spectrogram, given by
     # taking the modulus of the spectrogram tensor and squaring it.
     pxx = tf.real(specgrams * tf.conj(specgrams))
@@ -70,14 +74,18 @@ def graph_spectrogram(  # DONE
 
 
 # Load a wav file
-def get_wav_info(wav_file):  # DONE
+def get_wav_info(wav_file, normalize=True):  # DONE
     # New
     audio_binary = tf.read_file(wav_file)
     desired_channels = 2  # Always
     wav_decoder = audio_ops.decode_wav(audio_binary,
                                        desired_channels=desired_channels)
     # decode_wav does a normalization step. Multiplying by 2^15 undoes that
-    data = tf.cast(wav_decoder.audio * 2**15, tf.int16)
+    # data = tf.cast(wav_decoder.audio * 2**15, tf.float16)
+    if normalize:
+        data = wav_decoder.audio
+    else:
+        data = wav_decoder.audio * 2**15
     rate = wav_decoder.sample_rate
 
     return rate, data
