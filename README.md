@@ -1,3 +1,7 @@
+---
+typora-root-url: ./
+---
+
 # Team CyberLabs
 
 ## Idea Description
@@ -17,9 +21,9 @@ We cropped out individual horns from the dataset and randomly superposed them
 on 2 second clippings from the background noise to create 1800 positive and 700 negative
 training examples. The figure given below shows how the individual bursts of horn were cropped. The cropped out horns were about 0.4 seconds long and were randomly superposed over 2 seconds long clips of background noise.
 
-|                       Original                       |                   After cropping                    |
-| :--------------------------------------------------: | :-------------------------------------------------: |
-| ![original](/home/anon/CyberLabs/media/original.png) | ![original](/home/anon/CyberLabs/media/cropped.png) |
+|             Original              |          After cropping          |
+| :-------------------------------: | :------------------------------: |
+| ![original](./media/original.png) | ![original](./media/cropped.png) |
 
 
 
@@ -37,7 +41,7 @@ pre-process the raw audio signal to make it suitable for training purpose. All t
 
 We can reduce the no. of features drastically by switching to a more suitable domain, i.e., frequency domain. There are a large no. of frequencies in a typical audio stream. The figure given below shows how one is likely to have a lot of features in the time domain whereas, in frequency domain, the number of them gets significantly reduced due to the discrete nature of frequencies. A signal in time domain can be converted to frequency domain by calculating [Short-time Fourier Transform](https://en.wikipedia.org/wiki/Short-time_Fourier_transform) over the audio signal.
 
-![Time Domain Vs Frequency Domain](/home/anon/CyberLabs/media/time_vs_frequency_domain.jpg)
+![Time Domain Vs Frequency Domain](./media/time_vs_frequency_domain.jpg)
 
 We chose a _window size_ of 1650 time steps, _step size_ of 65 time steps and _fft length_ to be 200 after multiple trials.
 (More details about these parameters are given in the docstring of [`graph_spectrogram`](./utils.py#L7) function inside the [`utils`](./utils.py) script)
@@ -49,6 +53,6 @@ finally we end up with a highly useful, yet computationally efficient set of par
 
 ## The Team
 
-- Aniket Teotia
-- Suyog Jadhav
-- Udbhav Bamba
+| ![Aniket](./media/Aniket.jpg) | ![Suyog](./media/Suyog.jpg) | ![Udbhav](./media/Udbhav.jpg) |
+| :---------------------------: | :-------------------------: | :---------------------------: |
+|       **Aniket Teotia**       |      **Suyog Jadhav**       |       **Udbhav Bamba**        |
