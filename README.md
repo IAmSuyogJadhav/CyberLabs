@@ -1,7 +1,3 @@
----
-typora-root-url: ./
----
-
 # Team CyberLabs
 
 ## Idea Description
@@ -9,7 +5,9 @@ We are developing an application that will alert unaware pedestrians and those w
 hearing disabilities if a car is approaching them. Has applications ranging from
 helping reduce the no. of accidents occuring due to pedestrians carelessly crossing the streets
 with earphones on, alerting players of VR/AR games (for e.g., Pokemon Go) of oncoming
-cars to allowing people with aural impairements cross the streets with ease.
+cars to allowing people with aural impairments cross the streets with ease. We call it **WalkSafe**.
+
+> WalkSafe lets you walk freely on streets and everywhere else in general, even when you are wearing earphones or have difficulties in hearing.
 
 ## Dataset Preparation
 > Refer to [`Dataset Preparation.ipynb`](./Dataset%20Preparation.ipynb) to jump to the code directly.
