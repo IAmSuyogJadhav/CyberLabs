@@ -33,9 +33,9 @@ def graph_spectrogram(
     # Load the raw audio data
     # Due to the mixed nature of Urban 8K dataset,
     # The dataset is somewhat untidy in terms of sampling frequency and
-    # audio formats. some being 32 bit PCM.
-    # Therefore, we use tf.read_file tf.contrib.ffmpeg to explicitly read the
-    # audio files
+    # audio formats. Some being 32 bit PCM or at a different sampling frequency
+    # Therefore, we use tf.read_fil and tf.contrib.ffmpeg to explicitly read
+    # audio files in 44.1 KHz. This takes care of these problems.
     if train:  # If being used during training
         audio_binary = tf.read_file(wav_file)  # The raw audio data
         # Decode and convert into a Tensor
@@ -46,17 +46,18 @@ def graph_spectrogram(
             channel_count=2
             )
         if normalize:
-            pass
+            pass  # Output of tf.contrib.ffmpeg.decode_audio is already normalized
         else:
             data *= 2**15
 
-    else:
+    else:  # If being used in the app, in which case we will take care
+        # to ensure proper audio, thus read directly.
         _, data = get_wav_info(wav_file, normalize)
 
     # Convert to single dimensional vector by taking max of both channels.
     # Works better than just dropping a channel.
     data = tf.reduce_max(data, axis=1)
-    data = data[None, ...]
+    data = data[None, ...]  # To make the output shape comply with the model
 
     # Compute spectrogram for the signal by converting it to frequency
     # domain by applying Short-time Fourier Transform.
@@ -76,18 +77,19 @@ def graph_spectrogram(
 
 
 # Load a wav file
-def get_wav_info(wav_file, normalize=True):  # DONE
-    # New
-    audio_binary = tf.read_file(wav_file)
+def get_wav_info(wav_file, normalize=True):
+    audio_binary = tf.read_file(wav_file)  # The raw audio data
     desired_channels = 2  # Always
     wav_decoder = audio_ops.decode_wav(audio_binary,
                                        desired_channels=desired_channels)
-    # decode_wav does a normalization step. Multiplying by 2^15 undoes that
-    # data = tf.cast(wav_decoder.audio * 2**15, tf.float16)
+
     if normalize:
         data = wav_decoder.audio
     else:
+        # decode_wav does a normalization step. Multiplying by 2^15 undoes that
         data = wav_decoder.audio * 2**15
+
+    # Get the sampling frequency, useful for debugging later on.
     rate = wav_decoder.sample_rate
 
     return rate, data
