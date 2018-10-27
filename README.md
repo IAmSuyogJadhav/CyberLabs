@@ -30,7 +30,7 @@ Audio data, if used raw, doesn't come with a good set of usable features. One ha
 pre-process the raw audio signal to make it suitable for training purpose.
 All the modern microphones use 44.1 KHz sampling rate to record the audio.
 If we load the raw audio (which is 2 seconds long) directly, we therefore get a
-vector of shape  <img src="https://latex.codecogs.com/gif.latex?[882000%20*%201]" />. This is a whooping lot of features.
+vector of shape  <img src="https://latex.codecogs.com/gif.latex?[882000%20*%201]" />. This is a whooping lot of features!
 
 We can reduce the no. of features drastically by switching to frequency domain
 by calculating [Short-time Fourier Transform](https://en.wikipedia.org/wiki/Short-time_Fourier_transform) over the audio signal.
