@@ -15,7 +15,13 @@ urban sounds including car horns. We also use about an hour long recording of
 urban background noise to generate unique positive examples for training our model.
 We cropped out individual horns from the dataset and randomly superposed them
 on 2 second clippings from the background noise to create 1800 positive and 700 negative
-training examples.
+training examples. The figure given below shows how the individual bursts of horn were cropped. The cropped out horns were about 0.4 seconds long and were randomly superposed over 2 seconds long clips of background noise.
+
+|                       Original                       |                   After cropping                    |
+| :--------------------------------------------------: | :-------------------------------------------------: |
+| ![original](/home/anon/CyberLabs/media/original.png) | ![original](/home/anon/CyberLabs/media/cropped.png) |
+
+
 
 The dataset was then labeled by creating an array having 10 `1`s starting right
 from the point where the horn clip _just ends_ and zeros elsewhere.
@@ -27,13 +33,12 @@ The labels were generated along with the training examples and were saved in a N
 > Refer to [`graph_spectrogram` function in `utils.py`](./utils.py#L7) to jump to the code directly.
 
 Audio data, if used raw, doesn't come with a good set of usable features. One has to
-pre-process the raw audio signal to make it suitable for training purpose.
-All the modern microphones use 44.1 KHz sampling rate to record the audio.
-If we load the raw audio (which is 2 seconds long) directly, we therefore get a
-vector of shape  <img src="https://latex.codecogs.com/gif.latex?[882000%20*%201]" />. This is a whooping lot of features!
+pre-process the raw audio signal to make it suitable for training purpose. All the modern microphones use 44.1 KHz sampling rate to record the audio. If we load the raw audio (which is 2 seconds long) directly, we therefore get a vector of shape  <img src="https://latex.codecogs.com/gif.latex?[882000%20*%201]" />. This is a whooping lot of features!
 
-We can reduce the no. of features drastically by switching to frequency domain
-by calculating [Short-time Fourier Transform](https://en.wikipedia.org/wiki/Short-time_Fourier_transform) over the audio signal.
+We can reduce the no. of features drastically by switching to a more suitable domain, i.e., frequency domain. There are a large no. of frequencies in a typical audio stream. The figure given below shows how one is likely to have a lot of features in the time domain whereas, in frequency domain, the number of them gets significantly reduced due to the discrete nature of frequencies. A signal in time domain can be converted to frequency domain by calculating [Short-time Fourier Transform](https://en.wikipedia.org/wiki/Short-time_Fourier_transform) over the audio signal.
+
+![Time Domain Vs Frequency Domain](/home/anon/CyberLabs/media/time_vs_frequency_domain.jpg)
+
 We chose a _window size_ of 1650 time steps, _step size_ of 65 time steps and _fft length_ to be 200 after multiple trials.
 (More details about these parameters are given in the docstring of [`graph_spectrogram`](./utils.py#L7) function inside the [`utils`](./utils.py) script)
 
@@ -41,3 +46,9 @@ This provides us back with a matrix of shape <img src="https://latex.codecogs.co
 This is a lot of reduction in the parameters, plus frequency domain is the most suitable domain
 for dealing with signals and always gives better results than the time domain. Thus,
 finally we end up with a highly useful, yet computationally efficient set of parameters.
+
+## The Team
+
+- Aniket Teotia
+- Suyog Jadhav
+- Udbhav Bamba
