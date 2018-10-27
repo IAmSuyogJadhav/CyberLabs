@@ -1,16 +1,14 @@
 import tensorflow as tf
-import os
-
 # For reading audio files
 from tensorflow.contrib.framework.python.ops import audio_ops
 
 
-# Calculate and plot spectrogram for a wav audio file
+# Calculate and plot spectrogram for the wav audio file
 def graph_spectrogram(  # DONE
     wav_file,
-    window_length=25,  # Length of each window segment
+    window_length=1650,  # Length of each window segment
     # sampling_frequency=8000,  # Sampling frequency
-    step_size=12,  # Step size
+    step_size=65,  # Step size
     fft_length=200,
     normalize=False,
     train=True
@@ -21,13 +19,13 @@ def graph_spectrogram(  # DONE
     wav_file: str, required
         Path to the wav file
     window_length: int, optional
-        The length of the window for stft. Defaults to 200.
+        The length of the window for stft. Defaults to 1650.
         HIGHER the window length, LOWER the no. of features produced in axis 0.
     step_size: int, optional
-        The traversal step for stft. Defaults to 200.
+        The traversal step for stft. Defaults to 65.
         HIGHER the step size, LOWER the no. of features produced in axis 0.
     fft_length: int, optional
-        Used while applying stft. Defaults to 2.
+        Used while applying stft. Defaults to 200.
         HIGHER the step size, HIGHER the no. of features produced in axis 1.
     normalize: boolean, optional
         If True, normalize the output audio (by dividing by 2**15).
