@@ -24,7 +24,7 @@ it has ended. This perfectly aligns with the fact that one cannot predict a soun
 The labels were generated along with the training examples and were saved in a Numpy pickle.
 
 ## Audio pre-processing
-> Refer to [`graph_spectrogram` function in `utils.py`](./Dataset%20Preparation.ipynb) to jump to the code directly.
+> Refer to [`graph_spectrogram` function in `utils.py`](./utils.py#L7) to jump to the code directly.
 
 Audio data, if used raw, doesn't come with a good set of usable features. One has to
 pre-process the raw audio signal to make it suitable for training purpose.
