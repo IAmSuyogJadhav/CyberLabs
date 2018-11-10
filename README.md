@@ -53,6 +53,12 @@ This is a lot of reduction in the parameters, plus frequency domain is the most 
 for dealing with signals and always gives better results than the time domain. Thus,
 finally we end up with a highly useful, yet computationally efficient set of parameters.
 
+## Training the model
+> Refer to [`Training_model.ipynb`](./Training_model.ipynb) to jump to the code directly.
+The code used to train the model is contained in the above file. 
+
+> This documentation is slightly incomplete and will be completed in due time.
+
 ## The Team
 
 | ![Aniket](./media/Aniket.jpg) | ![Suyog](./media/Suyog.jpg) | ![Udbhav](./media/Udbhav.jpg) |
